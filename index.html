@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fare Calculator v2</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #000;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+    }
+    .container {
+        background: #1a1a1a;
+        padding: 20px;
+        border-radius: 10px;
+        width: 320px;
+        box-shadow: 0 0 15px rgba(255,0,0,0.5);
+    }
+    h2 {
+        text-align: center;
+        color: red;
+    }
+    label {
+        display: block;
+        margin-top: 10px;
+    }
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border: none;
+        border-radius: 5px;
+    }
+    .result {
+        background: #333;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+    button {
+        background-color: red;
+        color: white;
+        padding: 10px;
+        border: none;
+        width: 100%;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+    button:hover {
+        background-color: darkred;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Fare Calculator v2</h2>
+    <label>Total Trip Distance (KM):</label>
+    <input type="number" id="distance" min="0" step="0.1">
+
+    <button onclick="calculateFare()">Calculate Fare</button>
+
+    <div class="result">
+        <p>First 2 km: PHP <span id="first2">0.00</span></p>
+        <p>Next 5 km: PHP <span id="next5">0.00</span></p>
+        <p>Beyond 7 km: PHP <span id="beyond7">0.00</span></p>
+        <hr>
+        <p><b>Total Approved Fare: PHP <span id="total">0.00</span></b></p>
+    </div>
+</div>
+
+<script>
+function calculateFare() {
+    let distance = parseFloat(document.getElementById('distance').value);
+    let fareFirst2 = 0, fareNext5 = 0, fareBeyond7 = 0;
+
+    if (distance > 0) {
+        fareFirst2 = 50; // fixed for first 2 km
+    }
+    if (distance > 2) {
+        fareNext5 = 50; // fixed for next 5 km
+    }
+    if (distance > 7) {
+        let beyondKm = distance - 7;
+        fareBeyond7 = beyondKm * 15; // exact PH rate
+    }
+
+    let total = fareFirst2 + fareNext5 + fareBeyond7;
+
+    document.getElementById('first2').textContent = fareFirst2.toFixed(2);
+    document.getElementById('next5').textContent = fareNext5.toFixed(2);
+    document.getElementById('beyond7').textContent = fareBeyond7.toFixed(2);
+    document.getElementById('total').textContent = total.toFixed(2);
+}
+</script>
+
+</body>
+</html>
